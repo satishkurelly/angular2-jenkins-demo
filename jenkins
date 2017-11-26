@@ -1,32 +1,4 @@
-node('testing') {
-
-    stage('Checkout') {
-
-        git url: 'https://github.com/satishkurelly/angular2-jenkins-demo.git'
-        sh 'make all'
-        echo 'Getting source code...'
-        checkout scm
-    }
-
-    stage('Build') {
-        echo 'Building dependencies...'
-        sh 'npm i'
-    }
-
-    stage('Test') {
-        echo 'Testing...'
-        sh 'npm test'
-    }
-
-    stage('Publish') {
-        echo 'Publishing Test Coverage...'
-		publishHTML (target: [
-			allowMissing: false,
-			alwaysLinkToLastBuild: false,
-			keepAll: true,
-			reportDir: 'coverage/lcov-report',
-			reportFiles: 'index.html',
-			reportName: "Application Test Coverage"
-		])
-    }
+node {
+  def nodeHome = tool name: 'node-5.10.1', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+  sh "${nodeHome}/bin/node -v"
 }
